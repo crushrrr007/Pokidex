@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pokedex - Pokemon Explorer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+  </head>
+  <body>
+    <!-- Left Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <i data-lucide="circle-dot"></i>
+          <span>Pokedex</span>
+        </div>
+        <button
+          class="sidebar-toggle"
+          id="sidebar-toggle"
+          aria-label="Toggle sidebar"
+        >
+          <i data-lucide="panel-left-close" id="sidebar-toggle-icon"></i>
+        </button>
+      </div>
+
+      <nav class="sidebar-nav">
+        <button class="nav-item active" id="nav-search" data-section="search">
+          <i data-lucide="search"></i>
+          <span>Search</span>
+        </button>
+        <button class="nav-item" id="nav-filter" data-section="filter">
+          <i data-lucide="filter"></i>
+          <span>Filter</span>
+        </button>
+        <button class="nav-item" id="nav-compare" data-section="compare">
+          <i data-lucide="git-compare"></i>
+          <span>Compare</span>
+        </button>
+      </nav>
+
+      <!-- Sidebar Panels -->
+      <div class="sidebar-panels">
+        <!-- Search Panel -->
+        <div class="sidebar-panel active" id="panel-search">
+          <h3>Search Pokemon</h3>
+          <div class="sidebar-search-box">
+            <input type="text" id="search-input" placeholder="Name or ID..." />
+            <button id="search-btn"><i data-lucide="search"></i></button>
+          </div>
+        </div>
+
+        <!-- Filter Panel -->
+        <div class="sidebar-panel" id="panel-filter">
+          <h3>Filter by Type</h3>
+          <div class="filter-types" id="filter-types">
+            <button class="type-filter-btn active" data-type="">All</button>
+          </div>
+        </div>
+
+        <!-- Compare Panel -->
+        <div class="sidebar-panel" id="panel-compare">
+          <h3>Compare Pokemon</h3>
+          <div class="compare-inputs-sidebar">
+            <input type="text" id="compare-pokemon1" placeholder="Pokemon 1" />
+            <span class="vs-small">VS</span>
+            <input type="text" id="compare-pokemon2" placeholder="Pokemon 2" />
+            <button id="compare-execute-btn" class="compare-btn-sidebar">
+              <i data-lucide="zap"></i> Compare
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <a href="https://pokeapi.co/" target="_blank">
+          <i data-lucide="external-link"></i>
+          <span>PokeAPI</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-wrapper">
+      <header>
+        <button class="mobile-menu-btn" id="mobile-menu-btn">
+          <i data-lucide="menu"></i>
+        </button>
+        <div class="header-content">
+          <h1>Pokedex</h1>
+          <p>Explore the world of Pokemon</p>
+        </div>
+      </header>
+
+      <main>
+        <!-- Comparison Results Section (Hidden by default) -->
+        <section id="comparison-section" class="comparison-section hidden">
+          <div class="comparison-header">
+            <h2><i data-lucide="scale"></i> Comparison Results</h2>
+            <button id="close-comparison" class="close-comparison-btn">
+              <i data-lucide="x"></i>
+            </button>
+          </div>
+          <div id="comparison-result" class="comparison-result"></div>
+        </section>
+
+        <!-- Pokemon Grid -->
+        <section class="pokemon-grid-section">
+          <div id="pokemon-grid" class="pokemon-grid"></div>
+          <div id="loading" class="loading hidden">
+            <div class="pokeball-loader"></div>
+            <p>Loading Pokemon...</p>
+          </div>
+        </section>
+
+        <!-- Pagination -->
+        <section class="pagination-wrapper">
+          <div class="pagination-settings-group">
+            <div class="pagination-options">
+              <div class="custom-dropdown" id="per-page-dropdown">
+                <button class="dropdown-selected-btn" id="per-page-selected">
+                  <span>Per Page: 20</span>
+                  <i data-lucide="chevron-down" class="dropdown-arrow"></i>
+                </button>
+                <div class="dropdown-options" id="per-page-options">
+                  <div class="dropdown-option" data-value="12">12</div>
+                  <div class="dropdown-option selected" data-value="20">20</div>
+                  <div class="dropdown-option" data-value="40">40</div>
+                  <div class="dropdown-option" data-value="60">60</div>
+                  <div class="dropdown-option" data-value="100">100</div>
+                </div>
+              </div>
+            </div>
+            <div class="pagination-info">
+              <span id="results-info">Showing 1-20 of 1000 Pokemon</span>
+            </div>
+          </div>
+
+          <div class="pagination">
+            <button id="first-btn" class="page-btn" disabled title="First Page">
+              <i data-lucide="chevrons-left"></i>
+            </button>
+            <button
+              id="prev-btn"
+              class="page-btn"
+              disabled
+              title="Previous Page"
+            >
+              <i data-lucide="chevron-left"></i>
+            </button>
+            <div class="page-numbers" id="page-numbers">
+              <!-- Page numbers will be generated dynamically -->
+            </div>
+            <button id="next-btn" class="page-btn" title="Next Page">
+              <i data-lucide="chevron-right"></i>
+            </button>
+            <button id="last-btn" class="page-btn" title="Last Page">
+              <i data-lucide="chevrons-right"></i>
+            </button>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+      <i data-lucide="arrow-up"></i>
+    </button>
+
+    <!-- Pokemon Detail Modal -->
+    <div id="modal" class="modal hidden">
+      <div class="modal-overlay" id="modal-overlay"></div>
+      <div class="modal-container">
+        <button
+          class="modal-close"
+          id="modal-close-btn"
+          type="button"
+          aria-label="Close"
+        >
+          <i data-lucide="x"></i>
+        </button>
+        <div class="modal-content" data-lenis-prevent>
+          <div id="modal-body"></div>
+        </div>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+      // Initialize Lucide icons
+      lucide.createIcons();
+    </script>
+  </body>
+</html>
